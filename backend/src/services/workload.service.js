@@ -84,20 +84,22 @@ class WorkloadService {
 
     this.employees.forEach(emp => {
       const utilization = emp.getUtilization();
+      const workloadState = emp.getWorkloadState();
       const summary = {
         id: emp.id,
         name: emp.name,
         utilization: parseFloat(utilization.toFixed(2)),
         currentHours: parseFloat(emp.currentHours.toFixed(2)),
         capacityHours: emp.capacityHours,
-        workloadState: emp.getWorkloadState(),
+        workloadState: workloadState,
         skills: emp.skills
       };
 
-      if (utilization >= 85) {
+      // Include both Critical (>95%) and Overloaded (85-95%) in overloaded array
+      if (workloadState === 'Critical' || workloadState === 'Overloaded') {
         overloaded.push(summary);
-      } else if (utilization < 70) {
-        if (utilization < 50) {
+      } else if (workloadState === 'Underutilized' || workloadState === 'Available') {
+        if (workloadState === 'Available') {
           available.push(summary);
         } else {
           underutilized.push(summary);

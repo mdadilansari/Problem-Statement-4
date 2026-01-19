@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,8 @@ import { HttpClientModule } from '@angular/common/http';
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
-    HttpClientModule
+    HttpClientModule,
+    NgbDropdownModule
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']

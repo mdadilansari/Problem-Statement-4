@@ -1,0 +1,158 @@
+<div class="container-fluid py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-building"></i> Department Analytics</h2>
+    <button class="btn btn-primary" (click)="loadAnalytics()">
+      <i class="bi bi-arrow-clockwise"></i> Refresh
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && analytics">
+    <!-- Summary Cards -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-4">
+        <div class="card bg-primary text-white">
+          <div class="card-body">
+            <h3 class="card-title">{{ analytics.summary.totalDepartments }}</h3>
+            <p class="card-text">Total Departments</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card" [class]="'bg-' + getWorkloadStateClass(analytics.summary.mostUtilized.workloadState)" [class.text-white]="true">
+          <div class="card-body">
+            <h5 class="card-title">{{ analytics.summary.mostUtilized.name }}</h5>
+            <p class="card-text mb-0">Most Utilized Department</p>
+            <h4 class="mt-2">{{ analytics.summary.mostUtilized.averageUtilization | number:'1.1-1' }}%</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card" [class]="'bg-' + getWorkloadStateClass(analytics.summary.leastUtilized.workloadState)" [class.text-white]="analytics.summary.leastUtilized.averageUtilization > 50">
+          <div class="card-body">
+            <h5 class="card-title">{{ analytics.summary.leastUtilized.name }}</h5>
+            <p class="card-text mb-0">Least Utilized Department</p>
+            <h4 class="mt-2">{{ analytics.summary.leastUtilized.averageUtilization | number:'1.1-1' }}%</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Department Cards -->
+    <div class="row g-3">
+      <div *ngFor="let dept of analytics.departments" class="col-lg-6">
+        <div class="card h-100">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="bi bi-folder"></i> {{ dept.name }}</h5>
+            <span class="badge" [class]="'bg-' + getWorkloadStateClass(dept.workloadState)">
+              {{ dept.workloadState }}
+            </span>
+          </div>
+          <div class="card-body">
+            <!-- Utilization Bar -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <strong>Average Utilization</strong>
+                <strong>{{ dept.averageUtilization | number:'1.1-1' }}%</strong>
+              </div>
+              <div class="progress" style="height: 30px;">
+                <div class="progress-bar"
+                     [class]="'bg-' + getWorkloadStateClass(dept.workloadState)"
+                     [style.width.%]="getUtilizationWidth(dept)"
+                     role="progressbar">
+                  {{ dept.averageUtilization | number:'1.0-0' }}%
+                </div>
+              </div>
+            </div>
+
+            <!-- Department Stats -->
+            <div class="row g-2 mb-3">
+              <div class="col-4">
+                <div class="stat-box">
+                  <div class="stat-value">{{ dept.employeeCount }}</div>
+                  <div class="stat-label">Employees</div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="stat-box">
+                  <div class="stat-value">{{ dept.totalCapacity }}h</div>
+                  <div class="stat-label">Capacity</div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="stat-box">
+                  <div class="stat-value">{{ dept.totalWorkload }}h</div>
+                  <div class="stat-label">Workload</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Skills -->
+            <div class="mb-3">
+              <small class="text-muted d-block mb-2"><i class="bi bi-gear"></i> Department Skills:</small>
+              <div class="d-flex flex-wrap gap-1">
+                <span *ngFor="let skill of dept.skills" class="badge bg-primary">
+                  {{ skill }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Team Members -->
+            <div>
+              <small class="text-muted d-block mb-2"><i class="bi bi-people"></i> Team Members:</small>
+              <div class="employee-list">
+                <div *ngFor="let emp of dept.employees" class="employee-item">
+                  <span class="employee-name">{{ emp.name }}</span>
+                  <div class="employee-utilization">
+                    <span class="badge"
+                          [class.bg-danger]="emp.utilization > 95"
+                          [class.bg-warning]="emp.utilization > 85 && emp.utilization <= 95"
+                          [class.bg-success]="emp.utilization >= 70 && emp.utilization <= 85"
+                          [class.bg-info]="emp.utilization >= 50 && emp.utilization < 70"
+                          [class.bg-secondary]="emp.utilization < 50">
+                      {{ emp.utilization | number:'1.0-0' }}%
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparison Chart (Simple Bar Visualization) -->
+    <div class="card mt-4">
+      <div class="card-header">
+        <h5><i class="bi bi-bar-chart"></i> Department Utilization Comparison</h5>
+      </div>
+      <div class="card-body">
+        <div class="comparison-chart">
+          <div *ngFor="let dept of analytics.departments" class="comparison-bar-container">
+            <div class="comparison-bar-wrapper">
+              <div class="comparison-bar"
+                   [class]="'bg-' + getWorkloadStateClass(dept.workloadState)"
+                   [style.height.%]="getUtilizationWidth(dept)">
+                <span class="comparison-value">{{ dept.averageUtilization | number:'1.0-0' }}%</span>
+              </div>
+            </div>
+            <div class="comparison-label">
+              {{ dept.name }}
+              <br>
+              <small class="text-muted">({{ dept.employeeCount }} emp)</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

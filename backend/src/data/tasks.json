@@ -6,7 +6,9 @@
     "complexity": 3,
     "urgency": 2,
     "requiredSkill": "Angular",
-    "assignedTo": "E001"
+    "assignedTo": "E001",
+    "status": "In Progress",
+    "dueDate": "2026-01-25"
   },
   {
     "id": "T102",
@@ -15,7 +17,9 @@
     "complexity": 4,
     "urgency": 3,
     "requiredSkill": "Node.js",
-    "assignedTo": "E001"
+    "assignedTo": "E001",
+    "status": "In Progress",
+    "dueDate": "2026-01-23"
   },
   {
     "id": "T103",
@@ -24,7 +28,9 @@
     "complexity": 3,
     "urgency": 2,
     "requiredSkill": "PostgreSQL",
-    "assignedTo": "E004"
+    "assignedTo": "E004",
+    "status": "In Progress",
+    "dueDate": "2026-01-24"
   },
   {
     "id": "T104",
@@ -33,7 +39,9 @@
     "complexity": 2,
     "urgency": 1,
     "requiredSkill": "Angular",
-    "assignedTo": "E001"
+    "assignedTo": "E001",
+    "status": "Not Started",
+    "dueDate": "2026-01-28"
   },
   {
     "id": "T105",
@@ -42,7 +50,9 @@
     "complexity": 3,
     "urgency": 2,
     "requiredSkill": "Node.js",
-    "assignedTo": "E004"
+    "assignedTo": "E004",
+    "status": "In Progress",
+    "dueDate": "2026-01-26"
   },
   {
     "id": "T106",
@@ -51,7 +61,9 @@
     "complexity": 4,
     "urgency": 1,
     "requiredSkill": "Docker",
-    "assignedTo": "E002"
+    "assignedTo": "E002",
+    "status": "Not Started",
+    "dueDate": "2026-01-30"
   },
   {
     "id": "T107",
@@ -60,7 +72,9 @@
     "complexity": 4,
     "urgency": 2,
     "requiredSkill": "Angular",
-    "assignedTo": "E003"
+    "assignedTo": "E003",
+    "status": "In Progress",
+    "dueDate": "2026-01-27"
   },
   {
     "id": "T108",
@@ -69,7 +83,9 @@
     "complexity": 5,
     "urgency": 3,
     "requiredSkill": "Machine Learning",
-    "assignedTo": "E005"
+    "assignedTo": "E005",
+    "status": "In Progress",
+    "dueDate": "2026-01-29"
   },
   {
     "id": "T109",
@@ -78,7 +94,9 @@
     "complexity": 3,
     "urgency": 2,
     "requiredSkill": "Node.js",
-    "assignedTo": "E004"
+    "assignedTo": "E004",
+    "status": "In Progress",
+    "dueDate": "2026-01-25"
   },
   {
     "id": "T110",
@@ -87,7 +105,9 @@
     "complexity": 2,
     "urgency": 1,
     "requiredSkill": "Angular",
-    "assignedTo": "E006"
+    "assignedTo": "E006",
+    "status": "Not Started",
+    "dueDate": "2026-01-30"
   },
   {
     "id": "T111",
@@ -96,7 +116,9 @@
     "complexity": 4,
     "urgency": 2,
     "requiredSkill": "GraphQL",
-    "assignedTo": "E006"
+    "assignedTo": "E006",
+    "status": "In Progress",
+    "dueDate": "2026-01-26"
   },
   {
     "id": "T112",
@@ -105,6 +127,118 @@
     "complexity": 5,
     "urgency": 1,
     "requiredSkill": "Kubernetes",
-    "assignedTo": "E008"
+    "assignedTo": "E008",
+    "status": "Not Started",
+    "dueDate": "2026-02-01"
+  },
+  {
+    "id": "T113",
+    "title": "Microservices architecture design",
+    "estimatedHours": 16,
+    "complexity": 5,
+    "urgency": 3,
+    "requiredSkill": "Java",
+    "assignedTo": "E009",
+    "status": "In Progress",
+    "dueDate": "2026-01-24"
+  },
+  {
+    "id": "T114",
+    "title": "Component library setup",
+    "estimatedHours": 10,
+    "complexity": 3,
+    "urgency": 2,
+    "requiredSkill": "React",
+    "assignedTo": "E010",
+    "status": "Not Started",
+    "dueDate": "2026-01-28"
+  },
+  {
+    "id": "T115",
+    "title": "Responsive layout updates",
+    "estimatedHours": 8,
+    "complexity": 2,
+    "urgency": 1,
+    "requiredSkill": "SCSS",
+    "assignedTo": "E011",
+    "status": "Not Started",
+    "dueDate": "2026-01-31"
+  },
+  {
+    "id": "T116",
+    "title": "Caching layer implementation",
+    "estimatedHours": 12,
+    "complexity": 4,
+    "urgency": 2,
+    "requiredSkill": "Redis",
+    "assignedTo": "E012",
+    "status": "In Progress",
+    "dueDate": "2026-01-27"
+  },
+  {
+    "id": "T117",
+    "title": "Admin panel backend",
+    "estimatedHours": 14,
+    "complexity": 4,
+    "urgency": 3,
+    "requiredSkill": "Django",
+    "assignedTo": "E013",
+    "status": "In Progress",
+    "dueDate": "2026-01-25"
+  },
+  {
+    "id": "T118",
+    "title": "CI/CD pipeline optimization",
+    "estimatedHours": 10,
+    "complexity": 4,
+    "urgency": 2,
+    "requiredSkill": "Jenkins",
+    "assignedTo": "E014",
+    "status": "Not Started",
+    "dueDate": "2026-01-29"
+  },
+  {
+    "id": "T119",
+    "title": "Design system documentation",
+    "estimatedHours": 12,
+    "complexity": 2,
+    "urgency": 1,
+    "requiredSkill": "Figma",
+    "assignedTo": "E015",
+    "status": "In Progress",
+    "dueDate": "2026-01-30"
+  },
+  {
+    "id": "T120",
+    "title": "Security audit",
+    "estimatedHours": 16,
+    "complexity": 5,
+    "urgency": 3,
+    "requiredSkill": "AWS",
+    "assignedTo": null,
+    "status": "Not Started",
+    "dueDate": "2026-01-26"
+  },
+  {
+    "id": "T121",
+    "title": "Performance monitoring setup",
+    "estimatedHours": 8,
+    "complexity": 3,
+    "urgency": 2,
+    "requiredSkill": "DevOps",
+    "assignedTo": null,
+    "status": "Not Started",
+    "dueDate": "2026-01-28"
+  },
+  {
+    "id": "T122",
+    "title": "Mobile app prototype",
+    "estimatedHours": 20,
+    "complexity": 4,
+    "urgency": 1,
+    "requiredSkill": "React",
+    "assignedTo": null,
+    "status": "Not Started",
+    "dueDate": "2026-02-05"
   }
 ]

@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const workloadRoutes = require('./routes/workload.routes');
+const analyticsRoutes = require('./routes/analytics.routes');
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/workload', workloadRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -24,13 +26,23 @@ app.get('/', (req, res) => {
     version: '1.0.0',
     endpoints: {
       health: '/api/health',
-      summary: '/api/workload/summary',
-      imbalances: '/api/workload/imbalances',
-      recommendations: '/api/workload/recommendations',
-      tasks: '/api/workload/tasks',
-      employee: '/api/workload/employee/:id',
-      simulate: '/api/workload/simulate (POST)',
-      stats: '/api/workload/stats'
+      workload: {
+        summary: '/api/workload/summary',
+        imbalances: '/api/workload/imbalances',
+        recommendations: '/api/workload/recommendations',
+        tasks: '/api/workload/tasks',
+        employee: '/api/workload/employee/:id',
+        simulate: '/api/workload/simulate (POST)',
+        stats: '/api/workload/stats'
+      },
+      analytics: {
+        skillGaps: '/api/analytics/skill-gaps',
+        trends: '/api/analytics/trends',
+        departments: '/api/analytics/departments',
+        burnoutRisk: '/api/analytics/burnout-risk',
+        growthOpportunities: '/api/analytics/growth-opportunities',
+        futureWorkloadForecast: '/api/analytics/future-forecast'
+      }
     }
   });
 });

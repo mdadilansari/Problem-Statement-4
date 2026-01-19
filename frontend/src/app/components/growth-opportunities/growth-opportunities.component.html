@@ -1,0 +1,211 @@
+<div class="container-fluid py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-stars"></i> Growth Opportunities</h2>
+    <button class="btn btn-primary" (click)="loadOpportunities()">
+      <i class="bi bi-arrow-clockwise"></i> Refresh
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && data">
+    <!-- Summary Cards -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-3">
+        <div class="card bg-info text-white">
+          <div class="card-body">
+            <h3 class="card-title">{{ data.summary.totalUnderutilized }}</h3>
+            <p class="card-text">Underutilized Employees</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card bg-success text-white">
+          <div class="card-body">
+            <h3 class="card-title">{{ data.summary.totalAvailableCapacity }}h</h3>
+            <p class="card-text">Available Capacity</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card bg-primary text-white">
+          <div class="card-body">
+            <h3 class="card-title">{{ data.summary.totalMatchingTasks }}</h3>
+            <p class="card-text">Matching Tasks Available</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card bg-warning text-dark">
+          <div class="card-body">
+            <h3 class="card-title">{{ data.summary.totalSkillGaps }}</h3>
+            <p class="card-text">Skills to Develop</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- No Opportunities Message -->
+    <div *ngIf="data.opportunities.length === 0" class="alert alert-success">
+      <h5 class="alert-heading"><i class="bi bi-check-circle-fill"></i> All Team Members Optimally Utilized</h5>
+      <p class="mb-0">No underutilized employees detected. Team capacity is well-balanced.</p>
+    </div>
+
+    <!-- Employee Growth Opportunities -->
+    <div *ngIf="data.opportunities.length > 0">
+      <h4 class="mb-3"><i class="bi bi-person-plus"></i> Employee Development Opportunities</h4>
+      
+      <div class="row g-3">
+        <div *ngFor="let opp of data.opportunities" class="col-lg-6">
+          <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <div>
+                <h5 class="mb-0"><i class="bi bi-person"></i> {{ opp.employeeName }}</h5>
+                <small class="text-muted">{{ opp.department }}</small>
+              </div>
+              <span class="badge bg-info">{{ opp.currentUtilization | number:'1.0-0' }}% Utilized</span>
+            </div>
+            <div class="card-body">
+              <!-- Current Status -->
+              <div class="row g-2 mb-3">
+                <div class="col-4">
+                  <div class="stat-box-small">
+                    <div class="stat-value-small">{{ opp.availableCapacity }}h</div>
+                    <div class="stat-label-small">Available</div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="stat-box-small">
+                    <div class="stat-value-small">{{ opp.currentTaskCount }}</div>
+                    <div class="stat-label-small">Current Tasks</div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="stat-box-small">
+                    <div class="stat-value-small">{{ opp.currentSkills.length }}</div>
+                    <div class="stat-label-small">Skills</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Recommendations -->
+              <div class="mb-3">
+                <h6 class="text-primary"><i class="bi bi-lightbulb"></i> Recommendations</h6>
+                <div *ngFor="let rec of opp.recommendations" class="recommendation-item mb-2">
+                  <div class="d-flex align-items-start">
+                    <i [class]="getOpportunityIcon(rec.type) + ' me-2 mt-1'"></i>
+                    <div class="flex-grow-1">
+                      <div class="d-flex justify-content-between align-items-start mb-1">
+                        <strong>{{ rec.action }}</strong>
+                        <span class="badge" [class]="'bg-' + getPriorityClass(rec.priority)">
+                          {{ rec.priority }}
+                        </span>
+                      </div>
+                      <small class="text-muted d-block mb-1">{{ rec.benefit }}</small>
+                      <div *ngIf="rec.tasks && rec.tasks.length > 0">
+                        <small class="text-success"><i class="bi bi-check"></i> Tasks: {{ rec.tasks.join(', ') }}</small>
+                      </div>
+                      <div *ngIf="rec.suggestedSkills && rec.suggestedSkills.length > 0">
+                        <small class="text-warning"><i class="bi bi-star"></i> Skills: {{ rec.suggestedSkills.join(', ') }}</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Accordion for Details -->
+              <div class="accordion" [id]="'accordion-' + opp.employeeId">
+                <!-- Matching Tasks -->
+                <div class="accordion-item" *ngIf="opp.opportunities.matchingTasks.length > 0">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" 
+                            [attr.data-bs-toggle]="'collapse'" 
+                            [attr.data-bs-target]="'#tasks-' + opp.employeeId">
+                      <i class="bi bi-clipboard-check me-2"></i>
+                      {{ opp.opportunities.matchingTasks.length }} Matching Tasks
+                    </button>
+                  </h2>
+                  <div [id]="'tasks-' + opp.employeeId" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                      <div *ngFor="let task of opp.opportunities.matchingTasks" class="task-item mb-2">
+                        <div class="d-flex justify-content-between">
+                          <strong>{{ task.title }}</strong>
+                          <span class="badge bg-secondary" *ngIf="task.isStretchAssignment">
+                            <i class="bi bi-trophy"></i> Stretch
+                          </span>
+                        </div>
+                        <small class="text-muted">
+                          {{ task.requiredSkill }} • {{ task.estimatedHours }}h • 
+                          Complexity: {{ task.complexity }}/5
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Skills to Learn -->
+                <div class="accordion-item" *ngIf="opp.opportunities.skillsToLearn.length > 0">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" 
+                            [attr.data-bs-toggle]="'collapse'" 
+                            [attr.data-bs-target]="'#skills-' + opp.employeeId">
+                      <i class="bi bi-book me-2"></i>
+                      {{ opp.opportunities.skillsToLearn.length }} Skills to Develop
+                    </button>
+                  </h2>
+                  <div [id]="'skills-' + opp.employeeId" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                      <div *ngFor="let skill of opp.opportunities.skillsToLearn" class="skill-item mb-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <strong>{{ skill.skill }}</strong>
+                          <span class="badge bg-warning text-dark">
+                            {{ skill.unassigned }} unassigned
+                          </span>
+                        </div>
+                        <small class="text-muted">{{ skill.reason }}</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Stretch Assignments -->
+                <div class="accordion-item" *ngIf="opp.opportunities.stretchAssignments.length > 0">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" 
+                            [attr.data-bs-toggle]="'collapse'" 
+                            [attr.data-bs-target]="'#stretch-' + opp.employeeId">
+                      <i class="bi bi-trophy me-2"></i>
+                      {{ opp.opportunities.stretchAssignments.length }} Stretch Opportunities
+                    </button>
+                  </h2>
+                  <div [id]="'stretch-' + opp.employeeId" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                      <div *ngFor="let stretch of opp.opportunities.stretchAssignments" class="stretch-item mb-2">
+                        <strong>{{ stretch.title }}</strong>
+                        <div class="d-flex justify-content-between mt-1">
+                          <small class="text-muted">{{ stretch.requiredSkill }}</small>
+                          <span class="badge bg-danger">Complexity: {{ stretch.complexity }}/5</span>
+                        </div>
+                        <small class="text-success d-block mt-1">
+                          <i class="bi bi-lightbulb"></i> {{ stretch.benefit }}
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

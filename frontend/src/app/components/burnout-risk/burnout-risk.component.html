@@ -1,0 +1,194 @@
+<div class="container-fluid py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-heart-pulse"></i> Burnout Risk Analysis</h2>
+    <button class="btn btn-primary" (click)="loadRiskAnalysis()">
+      <i class="bi bi-arrow-clockwise"></i> Refresh
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && analysis">
+    <!-- Summary Cards -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-4">
+        <div class="card bg-danger text-white">
+          <div class="card-body">
+            <h3 class="card-title">{{ analysis.summary.highRisk }}</h3>
+            <p class="card-text">High Risk</p>
+            <small>Immediate attention required</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card bg-warning text-dark">
+          <div class="card-body">
+            <h3 class="card-title">{{ analysis.summary.mediumRisk }}</h3>
+            <p class="card-text">Medium Risk</p>
+            <small>Monitor closely</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card bg-success text-white">
+          <div class="card-body">
+            <h3 class="card-title">{{ analysis.summary.lowRisk }}</h3>
+            <p class="card-text">Low Risk</p>
+            <small>Manageable workload</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- At Risk Employees -->
+    <div *ngIf="analysis.atRisk.length > 0" class="mb-4">
+      <h4 class="mb-3"><i class="bi bi-exclamation-triangle-fill"></i> Employees at Risk</h4>
+      <div class="row g-3">
+        <div *ngFor="let risk of analysis.atRisk" class="col-lg-6">
+          <div class="card h-100" 
+               [class.border-danger]="risk.riskLevel === 'High'"
+               [class.border-warning]="risk.riskLevel === 'Medium'">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">
+                <i class="bi bi-person-fill"></i> {{ risk.employeeName }}
+              </h5>
+              <span class="badge" [class]="'bg-' + getRiskLevelClass(risk.riskLevel)">
+                {{ risk.riskLevel }} Risk
+              </span>
+            </div>
+            <div class="card-body">
+              <!-- Risk Score -->
+              <div class="mb-3">
+                <div class="d-flex justify-content-between mb-1">
+                  <strong>Risk Score</strong>
+                  <strong>{{ risk.riskScore }}/100</strong>
+                </div>
+                <div class="progress" style="height: 25px;">
+                  <div class="progress-bar"
+                       [class]="'bg-' + getRiskLevelClass(risk.riskLevel)"
+                       [style.width.%]="getRiskScoreWidth(risk.riskScore)"
+                       role="progressbar">
+                    {{ risk.riskScore }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Stats -->
+              <div class="row g-2 mb-3">
+                <div class="col-6">
+                  <div class="stat-box">
+                    <div class="stat-value" 
+                         [class.text-danger]="risk.utilization > 95"
+                         [class.text-warning]="risk.utilization > 85 && risk.utilization <= 95">
+                      {{ risk.utilization | number:'1.0-0' }}%
+                    </div>
+                    <div class="stat-label">Utilization</div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="stat-box">
+                    <div class="stat-value"
+                         [class.text-danger]="risk.taskCount > 5">
+                      {{ risk.taskCount }}
+                    </div>
+                    <div class="stat-label">Active Tasks</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Risk Factors -->
+              <div class="mb-3">
+                <small class="text-muted d-block mb-2"><i class="bi bi-clipboard-data"></i> Risk Factors:</small>
+                <ul class="risk-factors">
+                  <li *ngFor="let factor of risk.riskFactors" class="risk-factor-item">
+                    <i class="bi bi-dot"></i> {{ factor }}
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Recommendation -->
+              <div class="alert" [class]="'alert-' + getRiskLevelClass(risk.riskLevel)">
+                <strong><i class="bi bi-lightbulb-fill"></i> Recommendation:</strong>
+                <p class="mb-0 mt-1">{{ risk.recommendation }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- All Employees (if there are no at-risk employees) -->
+    <div *ngIf="analysis.atRisk.length === 0" class="alert alert-success">
+      <h5 class="alert-heading"><i class="bi bi-check-circle-fill"></i> No Employees at High Risk</h5>
+      <p class="mb-0">Current workload distribution is healthy. Continue monitoring for changes.</p>
+    </div>
+
+    <!-- Full List Table -->
+    <div class="card" *ngIf="analysis.all.length > 0">
+      <div class="card-header">
+        <h5><i class="bi bi-list-ul"></i> Complete Risk Assessment</h5>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Employee</th>
+                <th>Risk Level</th>
+                <th>Risk Score</th>
+                <th>Utilization</th>
+                <th>Tasks</th>
+                <th>Risk Factors</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let risk of analysis.all">
+                <td><strong>{{ risk.employeeName }}</strong></td>
+                <td>
+                  <span class="badge" [class]="'bg-' + getRiskLevelClass(risk.riskLevel)">
+                    {{ risk.riskLevel }}
+                  </span>
+                </td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="progress flex-grow-1 me-2" style="height: 18px; width: 80px;">
+                      <div class="progress-bar"
+                           [class]="'bg-' + getRiskLevelClass(risk.riskLevel)"
+                           [style.width.%]="getRiskScoreWidth(risk.riskScore)"
+                           role="progressbar">
+                      </div>
+                    </div>
+                    <span>{{ risk.riskScore }}</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="badge"
+                        [class.bg-danger]="risk.utilization > 95"
+                        [class.bg-warning]="risk.utilization > 85 && risk.utilization <= 95"
+                        [class.bg-success]="risk.utilization >= 70 && risk.utilization <= 85"
+                        [class.bg-info]="risk.utilization < 70">
+                    {{ risk.utilization | number:'1.0-0' }}%
+                  </span>
+                </td>
+                <td>{{ risk.taskCount }}</td>
+                <td>
+                  <small>{{ risk.riskFactors.length }} factors</small>
+                  <i class="bi bi-info-circle text-muted ms-1" 
+                     [title]="risk.riskFactors.join(', ')"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

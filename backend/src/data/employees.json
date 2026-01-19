@@ -4,55 +4,149 @@
     "name": "Alice Johnson",
     "skills": ["Angular", "Node.js", "TypeScript"],
     "capacityHours": 40,
-    "currentHours": 0
+    "currentHours": 0,
+    "department": "Frontend Development",
+    "experience": 5,
+    "availability": "Full-time"
   },
   {
     "id": "E002",
     "name": "Bob Smith",
     "skills": ["React", "Python", "Docker"],
     "capacityHours": 40,
-    "currentHours": 0
+    "currentHours": 0,
+    "department": "DevOps",
+    "experience": 4,
+    "availability": "Full-time"
   },
   {
     "id": "E003",
     "name": "Carol Williams",
     "skills": ["Angular", "Express", "MongoDB"],
     "capacityHours": 40,
-    "currentHours": 0
+    "currentHours": 0,
+    "department": "Full Stack",
+    "experience": 6,
+    "availability": "Full-time"
   },
   {
     "id": "E004",
     "name": "David Brown",
     "skills": ["Node.js", "PostgreSQL", "AWS"],
     "capacityHours": 40,
-    "currentHours": 0
+    "currentHours": 0,
+    "department": "Backend Development",
+    "experience": 7,
+    "availability": "Full-time"
   },
   {
     "id": "E005",
     "name": "Emma Davis",
     "skills": ["Vue.js", "Python", "Machine Learning"],
     "capacityHours": 40,
-    "currentHours": 0
+    "currentHours": 0,
+    "department": "AI/ML",
+    "experience": 8,
+    "availability": "Full-time"
   },
   {
     "id": "E006",
     "name": "Frank Miller",
     "skills": ["Angular", "TypeScript", "GraphQL"],
     "capacityHours": 40,
-    "currentHours": 0
+    "currentHours": 0,
+    "department": "Frontend Development",
+    "experience": 3,
+    "availability": "Full-time"
   },
   {
     "id": "E007",
     "name": "Grace Wilson",
     "skills": ["React", "Node.js", "Docker"],
     "capacityHours": 40,
-    "currentHours": 0
+    "currentHours": 0,
+    "department": "Full Stack",
+    "experience": 5,
+    "availability": "Full-time"
   },
   {
     "id": "E008",
     "name": "Henry Moore",
     "skills": ["Python", "TensorFlow", "Kubernetes"],
     "capacityHours": 40,
-    "currentHours": 0
+    "currentHours": 0,
+    "department": "AI/ML",
+    "experience": 6,
+    "availability": "Full-time"
+  },
+  {
+    "id": "E009",
+    "name": "Isabella Garcia",
+    "skills": ["Java", "Spring Boot", "MySQL"],
+    "capacityHours": 40,
+    "currentHours": 0,
+    "department": "Backend Development",
+    "experience": 4,
+    "availability": "Full-time"
+  },
+  {
+    "id": "E010",
+    "name": "Jack Robinson",
+    "skills": ["React", "Redux", "Jest"],
+    "capacityHours": 40,
+    "currentHours": 0,
+    "department": "Frontend Development",
+    "experience": 3,
+    "availability": "Full-time"
+  },
+  {
+    "id": "E011",
+    "name": "Kelly Chen",
+    "skills": ["Angular", "RxJS", "SCSS"],
+    "capacityHours": 32,
+    "currentHours": 0,
+    "department": "Frontend Development",
+    "experience": 4,
+    "availability": "Part-time"
+  },
+  {
+    "id": "E012",
+    "name": "Liam Anderson",
+    "skills": ["Node.js", "Express", "Redis"],
+    "capacityHours": 40,
+    "currentHours": 0,
+    "department": "Backend Development",
+    "experience": 5,
+    "availability": "Full-time"
+  },
+  {
+    "id": "E013",
+    "name": "Maria Santos",
+    "skills": ["Python", "Django", "PostgreSQL"],
+    "capacityHours": 40,
+    "currentHours": 0,
+    "department": "Backend Development",
+    "experience": 6,
+    "availability": "Full-time"
+  },
+  {
+    "id": "E014",
+    "name": "Nathan Lee",
+    "skills": ["DevOps", "Jenkins", "AWS"],
+    "capacityHours": 40,
+    "currentHours": 0,
+    "department": "DevOps",
+    "experience": 7,
+    "availability": "Full-time"
+  },
+  {
+    "id": "E015",
+    "name": "Olivia Martinez",
+    "skills": ["UI/UX", "Figma", "HTML", "CSS"],
+    "capacityHours": 40,
+    "currentHours": 0,
+    "department": "Design",
+    "experience": 4,
+    "availability": "Full-time"
   }
 ]

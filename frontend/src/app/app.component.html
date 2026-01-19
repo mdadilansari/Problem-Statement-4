@@ -26,6 +26,32 @@
               <i class="bi bi-lightbulb-fill me-1"></i>Recommendations
             </a>
           </li>
+          <li class="nav-item" ngbDropdown>
+            <a class="nav-link dropdown-toggle" ngbDropdownToggle id="analyticsDropdown" role="button">
+              <i class="bi bi-graph-up me-1"></i>Analytics
+            </a>
+            <div ngbDropdownMenu aria-labelledby="analyticsDropdown" class="dropdown-menu dropdown-menu-end">
+              <a class="dropdown-item" routerLink="/skill-gaps" ngbDropdownItem>
+                <i class="bi bi-diagram-3 me-2"></i>Skill Gaps
+              </a>
+              <a class="dropdown-item" routerLink="/trends" ngbDropdownItem>
+                <i class="bi bi-graph-up me-2"></i>Workload Trends
+              </a>
+              <a class="dropdown-item" routerLink="/departments" ngbDropdownItem>
+                <i class="bi bi-building me-2"></i>Department Analytics
+              </a>
+              <a class="dropdown-item" routerLink="/burnout-risk" ngbDropdownItem>
+                <i class="bi bi-heart-pulse me-2"></i>Burnout Risk
+              </a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" routerLink="/growth-opportunities" ngbDropdownItem>
+                <i class="bi bi-stars me-2"></i>Growth Opportunities
+              </a>
+              <a class="dropdown-item" routerLink="/future-forecast" ngbDropdownItem>
+                <i class="bi bi-calendar-week me-2"></i>Future Forecast
+              </a>
+            </div>
+          </li>
         </ul>
       </div>
     </div>

@@ -93,14 +93,14 @@
                 <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Overloaded
               </span>
               <span class="distribution-count fw-bold">
-                {{ stats.workloadDistribution.overloaded }}
+                {{ stats.workloadDistribution.critical }}
               </span>
             </div>
             <div class="progress" style="height: 24px;">
               <div class="progress-bar bg-warning" 
                    role="progressbar"
-                   [style.width.%]="getDistributionPercentage(stats.workloadDistribution.overloaded)"
-                   [attr.aria-valuenow]="getDistributionPercentage(stats.workloadDistribution.overloaded)"
+                   [style.width.%]="getDistributionPercentage(stats.workloadDistribution.critical)"
+                   [attr.aria-valuenow]="getDistributionPercentage(stats.workloadDistribution.critical)"
                    aria-valuemin="0" 
                    aria-valuemax="100">
               </div>

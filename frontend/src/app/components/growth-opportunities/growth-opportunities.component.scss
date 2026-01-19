@@ -1,0 +1,56 @@
+.stat-box-small {
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 8px;
+  text-align: center;
+
+  .stat-value-small {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #0d6efd;
+  }
+
+  .stat-label-small {
+    font-size: 0.7rem;
+    color: #6c757d;
+    margin-top: 2px;
+  }
+}
+
+.recommendation-item {
+  background: #f8f9fa;
+  border-left: 3px solid #0d6efd;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.task-item,
+.skill-item,
+.stretch-item {
+  padding: 8px;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.accordion-button {
+  font-size: 0.9rem;
+  padding: 10px 15px;
+
+  &:not(.collapsed) {
+    background-color: #e7f1ff;
+    color: #0d6efd;
+  }
+}
+
+.accordion-body {
+  padding: 15px;
+}
+
+.card {
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
