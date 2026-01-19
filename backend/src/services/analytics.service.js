@@ -135,7 +135,8 @@ class AnalyticsService {
   }
 
   /**
-   * Get workload trends (simulated time-series data)
+   * Get workload trends (simulated time-series data for demo purposes)
+   * NOTE: In production, this would use actual historical data from a database
    * @returns {Object} Trend data
    */
   getWorkloadTrends() {
@@ -144,37 +145,79 @@ class AnalyticsService {
     // Simulate historical data for the last 30 days
     const days = 30;
     const trends = [];
-
+    
+    // Get current actual utilization
+    const currentAvgUtilization = employees.reduce((sum, emp) => sum + emp.getUtilization(), 0) / employees.length;
+    
+    // Create more realistic historical simulation based on current state
     for (let i = days; i >= 0; i--) {
       const date = new Date();
       date.setDate(date.getDate() - i);
       const dateStr = date.toISOString().split('T')[0];
 
-      // Simulate varying workload with some randomness
-      const avgUtilization = employees.reduce((sum, emp) => sum + emp.getUtilization(), 0) / employees.length;
+      // Create a wave pattern with weekly cycles (5 day work week)
+      const dayOfWeek = date.getDay();
+      const weekendFactor = (dayOfWeek === 0 || dayOfWeek === 6) ? 0.7 : 1.0; // Lower on weekends
       
-      // Add some variance to create a trend
-      const variance = (Math.random() - 0.5) * 20; // +/- 10%
-      const baseUtilization = Math.max(30, Math.min(95, avgUtilization + variance - (i * 0.5))); // Trending up
-
+      // Add gradual increase toward current utilization
+      const daysFromStart = days - i;
+      const progressionFactor = (daysFromStart / days) * currentAvgUtilization;
+      
+      // Add realistic variance (smaller than before)
+      const variance = (Math.random() - 0.5) * 10; // ±5%
+      
+      // Calculate base utilization trending toward current
+      let baseUtilization = (progressionFactor * 0.7) + (currentAvgUtilization * 0.3) + variance;
+      baseUtilization = baseUtilization * weekendFactor;
+      baseUtilization = Math.max(35, Math.min(95, baseUtilization)); // Keep realistic bounds
+      
+      // Calculate realistic employee distribution based on utilization
+      const criticalCount = employees.filter(e => e.getUtilization() > 95).length;
+      const overloadedCount = employees.filter(e => {
+        const u = e.getUtilization();
+        return u >= 85 && u <= 95;
+      }).length;
+      const optimalCount = employees.filter(e => {
+        const u = e.getUtilization();
+        return u >= 70 && u < 85;
+      }).length;
+      const underutilizedCount = employees.filter(e => {
+        const u = e.getUtilization();
+        return u >= 50 && u < 70;
+      }).length;
+      const availableCount = employees.filter(e => e.getUtilization() < 50).length;
+      
+      // Simulate historical distribution (use current ratios but with some variation)
+      const totalEmployees = employees.length;
+      const utilizationRatio = baseUtilization / currentAvgUtilization;
+      
       trends.push({
         date: dateStr,
         averageUtilization: parseFloat(baseUtilization.toFixed(2)),
-        overloadedCount: Math.floor(employees.length * (baseUtilization > 85 ? 0.3 : 0.1)),
-        optimalCount: Math.floor(employees.length * 0.4),
-        underutilizedCount: Math.floor(employees.length * 0.3),
-        totalTasks: workloadService.tasks.length + Math.floor(Math.random() * 5 - 2)
+        criticalCount: Math.max(0, Math.round(criticalCount * utilizationRatio * (0.8 + Math.random() * 0.4))),
+        overloadedCount: Math.max(0, Math.round(overloadedCount * utilizationRatio * (0.8 + Math.random() * 0.4))),
+        optimalCount: Math.max(0, Math.round(optimalCount * (0.8 + Math.random() * 0.4))),
+        underutilizedCount: Math.max(0, Math.round(underutilizedCount * (0.8 + Math.random() * 0.4))),
+        availableCount: Math.max(0, Math.round(availableCount * (0.8 + Math.random() * 0.4))),
+        totalTasks: Math.max(15, workloadService.tasks.length + Math.floor((Math.random() - 0.5) * 8))
       });
     }
+    
+    // Calculate actual trend direction from data
+    const recentAvg = trends.slice(-7).reduce((sum, t) => sum + t.averageUtilization, 0) / 7;
+    const olderAvg = trends.slice(0, 7).reduce((sum, t) => sum + t.averageUtilization, 0) / 7;
+    const trendDirection = recentAvg > olderAvg + 3 ? 'increasing' : 
+                          recentAvg < olderAvg - 3 ? 'decreasing' : 'stable';
 
     return {
       trends: trends,
       summary: {
-        currentUtilization: parseFloat((employees.reduce((sum, emp) => sum + emp.getUtilization(), 0) / employees.length).toFixed(2)),
-        trend: 'increasing',
-        projectedUtilization: parseFloat((trends[trends.length - 1].averageUtilization + 5).toFixed(2)),
+        currentUtilization: parseFloat(currentAvgUtilization.toFixed(2)),
+        trend: trendDirection,
+        projectedUtilization: parseFloat(Math.min(100, recentAvg + (recentAvg - olderAvg)).toFixed(2)),
         daysAnalyzed: days + 1
-      }
+      },
+      disclaimer: 'Note: Historical trend data is simulated for demonstration purposes. In a production environment, this would reflect actual historical workload data stored in a database.'
     };
   }
 

@@ -33,9 +33,11 @@ export interface SkillGapAnalysis {
 export interface TrendData {
   date: string;
   averageUtilization: number;
+  criticalCount?: number;
   overloadedCount: number;
   optimalCount: number;
   underutilizedCount: number;
+  availableCount?: number;
   totalTasks: number;
 }
 
@@ -47,6 +49,7 @@ export interface WorkloadTrends {
     projectedUtilization: number;
     daysAnalyzed: number;
   };
+  disclaimer?: string;
 }
 
 export interface DepartmentAnalytics {
