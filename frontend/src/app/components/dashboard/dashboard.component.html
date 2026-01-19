@@ -47,10 +47,10 @@
       <div class="card text-center">
         <div class="card-body">
           <div class="stat-icon">⚠️</div>
-          <div class="stat-number status-overloaded">
-            {{ stats.imbalancesSummary.overloadedCount }}
+          <div class="stat-number status-critical">
+            {{ stats.workloadDistribution.critical }}
           </div>
-          <div class="stat-label text-muted">Overloaded</div>
+          <div class="stat-label text-muted">Critical</div>
         </div>
       </div>
     </div>
@@ -93,14 +93,14 @@
                 <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Overloaded
               </span>
               <span class="distribution-count fw-bold">
-                {{ stats.workloadDistribution.critical }}
+                {{ stats.workloadDistribution.overloaded }}
               </span>
             </div>
             <div class="progress" style="height: 24px;">
               <div class="progress-bar bg-warning" 
                    role="progressbar"
-                   [style.width.%]="getDistributionPercentage(stats.workloadDistribution.critical)"
-                   [attr.aria-valuenow]="getDistributionPercentage(stats.workloadDistribution.critical)"
+                   [style.width.%]="getDistributionPercentage(stats.workloadDistribution.overloaded)"
+                   [attr.aria-valuenow]="getDistributionPercentage(stats.workloadDistribution.overloaded)"
                    aria-valuemin="0" 
                    aria-valuemax="100">
               </div>
@@ -195,11 +195,18 @@
             <strong>Total Employees:</strong> {{ stats.totalEmployees }}
           </p>
           <p class="mb-2">
+            <strong>Critical:</strong> 
+            <span class="status-critical">
+              {{ stats.workloadDistribution.critical }}
+            </span>
+            ({{ getDistributionPercentage(stats.workloadDistribution.critical).toFixed(1) }}%)
+          </p>
+          <p class="mb-2">
             <strong>Overloaded:</strong> 
             <span class="status-overloaded">
-              {{ stats.imbalancesSummary.overloadedCount }}
+              {{ stats.workloadDistribution.overloaded }}
             </span>
-            ({{ getDistributionPercentage(stats.imbalancesSummary.overloadedCount).toFixed(1) }}%)
+            ({{ getDistributionPercentage(stats.workloadDistribution.overloaded).toFixed(1) }}%)
           </p>
           <p class="mb-2">
             <strong>Underutilized:</strong> 

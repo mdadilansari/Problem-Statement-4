@@ -536,7 +536,8 @@ class AnalyticsService {
             hoursRequired: parseFloat(weekHours.toFixed(2)),
             status: projectedUtilization > 95 ? 'Critical' : 
                     projectedUtilization >= 85 ? 'Overloaded' :
-                    projectedUtilization >= 70 ? 'Optimal' : 'Available',
+                    projectedUtilization >= 70 ? 'Optimal' :
+                    projectedUtilization >= 50 ? 'Underutilized' : 'Available',
             isBottleneck: projectedUtilization > 95
           });
         }
