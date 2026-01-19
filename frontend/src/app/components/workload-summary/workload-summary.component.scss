@@ -1,0 +1,23 @@
+.employee-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+
+  .label {
+    font-weight: 500;
+  }
+
+  .value {
+    font-weight: 600;
+  }
+}
+
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}

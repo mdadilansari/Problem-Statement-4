@@ -1,0 +1,19 @@
+.recommendations-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.priority-high {
+  background-color: #dc3545 !important;
+  color: white !important;
+}
+
+.priority-medium {
+  background-color: #fd7e14 !important;
+  color: white !important;
+}
+
+.priority-low {
+  background-color: #0dcaf0 !important;
+  color: white !important;
+}

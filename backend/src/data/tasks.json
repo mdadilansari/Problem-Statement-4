@@ -1,0 +1,110 @@
+[
+  {
+    "id": "T101",
+    "title": "Build dashboard UI",
+    "estimatedHours": 12,
+    "complexity": 3,
+    "urgency": 2,
+    "requiredSkill": "Angular",
+    "assignedTo": "E001"
+  },
+  {
+    "id": "T102",
+    "title": "Implement authentication API",
+    "estimatedHours": 8,
+    "complexity": 4,
+    "urgency": 3,
+    "requiredSkill": "Node.js",
+    "assignedTo": "E001"
+  },
+  {
+    "id": "T103",
+    "title": "Database schema design",
+    "estimatedHours": 6,
+    "complexity": 3,
+    "urgency": 2,
+    "requiredSkill": "PostgreSQL",
+    "assignedTo": "E004"
+  },
+  {
+    "id": "T104",
+    "title": "User profile component",
+    "estimatedHours": 10,
+    "complexity": 2,
+    "urgency": 1,
+    "requiredSkill": "Angular",
+    "assignedTo": "E001"
+  },
+  {
+    "id": "T105",
+    "title": "API integration testing",
+    "estimatedHours": 8,
+    "complexity": 3,
+    "urgency": 2,
+    "requiredSkill": "Node.js",
+    "assignedTo": "E004"
+  },
+  {
+    "id": "T106",
+    "title": "Docker deployment setup",
+    "estimatedHours": 5,
+    "complexity": 4,
+    "urgency": 1,
+    "requiredSkill": "Docker",
+    "assignedTo": "E002"
+  },
+  {
+    "id": "T107",
+    "title": "Data visualization charts",
+    "estimatedHours": 15,
+    "complexity": 4,
+    "urgency": 2,
+    "requiredSkill": "Angular",
+    "assignedTo": "E003"
+  },
+  {
+    "id": "T108",
+    "title": "ML model training pipeline",
+    "estimatedHours": 20,
+    "complexity": 5,
+    "urgency": 3,
+    "requiredSkill": "Machine Learning",
+    "assignedTo": "E005"
+  },
+  {
+    "id": "T109",
+    "title": "REST API endpoints",
+    "estimatedHours": 12,
+    "complexity": 3,
+    "urgency": 2,
+    "requiredSkill": "Node.js",
+    "assignedTo": "E004"
+  },
+  {
+    "id": "T110",
+    "title": "Form validation module",
+    "estimatedHours": 6,
+    "complexity": 2,
+    "urgency": 1,
+    "requiredSkill": "Angular",
+    "assignedTo": "E006"
+  },
+  {
+    "id": "T111",
+    "title": "GraphQL schema implementation",
+    "estimatedHours": 10,
+    "complexity": 4,
+    "urgency": 2,
+    "requiredSkill": "GraphQL",
+    "assignedTo": "E006"
+  },
+  {
+    "id": "T112",
+    "title": "Container orchestration",
+    "estimatedHours": 8,
+    "complexity": 5,
+    "urgency": 1,
+    "requiredSkill": "Kubernetes",
+    "assignedTo": "E008"
+  }
+]

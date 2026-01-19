@@ -1,0 +1,222 @@
+<div class="container py-4">
+  <div class="row mb-4">
+    <div class="col">
+      <h2 class="display-6">
+        <i class="bi bi-speedometer2 me-2"></i>Workload Dashboard
+      </h2>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}
+  </div>
+
+  <div *ngIf="!loading && !error && stats" class="dashboard-content">
+    <!-- Overview Cards -->
+    <div class="stats-grid mb-4">
+      <div class="card text-center">
+        <div class="card-body">
+          <div class="stat-icon">👥</div>
+          <div class="stat-number">{{ stats.totalEmployees }}</div>
+          <div class="stat-label text-muted">Total Employees</div>
+        </div>
+      </div>
+
+      <div class="card text-center">
+        <div class="card-body">
+          <div class="stat-icon">📋</div>
+          <div class="stat-number">{{ stats.totalTasks }}</div>
+          <div class="stat-label text-muted">Total Tasks</div>
+        </div>
+      </div>
+
+      <div class="card text-center">
+        <div class="card-body">
+          <div class="stat-icon">📊</div>
+          <div class="stat-number">{{ stats.averageUtilization }}%</div>
+          <div class="stat-label text-muted">Average Utilization</div>
+        </div>
+      </div>
+
+      <div class="card text-center">
+        <div class="card-body">
+          <div class="stat-icon">⚠️</div>
+          <div class="stat-number status-overloaded">
+            {{ stats.imbalancesSummary.overloadedCount }}
+          </div>
+          <div class="stat-label text-muted">Overloaded</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workload Distribution -->
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">
+          <i class="bi bi-bar-chart-fill me-2"></i>Workload Distribution
+        </h5>
+      </div>
+      <div class="card-body">
+        <div class="distribution-grid">
+          <div class="distribution-item mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="distribution-label status-critical">
+                <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Critical
+              </span>
+              <span class="distribution-count fw-bold">
+                {{ stats.workloadDistribution.critical }}
+              </span>
+            </div>
+            <div class="progress" style="height: 24px;">
+              <div class="progress-bar bg-danger" 
+                   role="progressbar"
+                   [style.width.%]="getDistributionPercentage(stats.workloadDistribution.critical)"
+                   [attr.aria-valuenow]="getDistributionPercentage(stats.workloadDistribution.critical)"
+                   aria-valuemin="0" 
+                   aria-valuemax="100">
+              </div>
+            </div>
+            <div class="text-end mt-1 small text-muted">
+              {{ getDistributionPercentage(stats.workloadDistribution.critical).toFixed(1) }}%
+            </div>
+          </div>
+
+          <div class="distribution-item mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="distribution-label status-overloaded">
+                <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Overloaded
+              </span>
+              <span class="distribution-count fw-bold">
+                {{ stats.workloadDistribution.overloaded }}
+              </span>
+            </div>
+            <div class="progress" style="height: 24px;">
+              <div class="progress-bar bg-warning" 
+                   role="progressbar"
+                   [style.width.%]="getDistributionPercentage(stats.workloadDistribution.overloaded)"
+                   [attr.aria-valuenow]="getDistributionPercentage(stats.workloadDistribution.overloaded)"
+                   aria-valuemin="0" 
+                   aria-valuemax="100">
+              </div>
+            </div>
+            <div class="text-end mt-1 small text-muted">
+              {{ getDistributionPercentage(stats.workloadDistribution.overloaded).toFixed(1) }}%
+            </div>
+          </div>
+
+          <div class="distribution-item mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="distribution-label status-optimal">
+                <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Optimal
+              </span>
+              <span class="distribution-count fw-bold">
+                {{ stats.workloadDistribution.optimal }}
+              </span>
+            </div>
+            <div class="progress" style="height: 24px;">
+              <div class="progress-bar bg-success" 
+                   role="progressbar"
+                   [style.width.%]="getDistributionPercentage(stats.workloadDistribution.optimal)"
+                   [attr.aria-valuenow]="getDistributionPercentage(stats.workloadDistribution.optimal)"
+                   aria-valuemin="0" 
+                   aria-valuemax="100">
+              </div>
+            </div>
+            <div class="text-end mt-1 small text-muted">
+              {{ getDistributionPercentage(stats.workloadDistribution.optimal).toFixed(1) }}%
+            </div>
+          </div>
+
+          <div class="distribution-item mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="distribution-label status-underutilized">
+                <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Underutilized
+              </span>
+              <span class="distribution-count fw-bold">
+                {{ stats.workloadDistribution.underutilized }}
+              </span>
+            </div>
+            <div class="progress" style="height: 24px;">
+              <div class="progress-bar bg-info" 
+                   role="progressbar"
+                   [style.width.%]="getDistributionPercentage(stats.workloadDistribution.underutilized)"
+                   [attr.aria-valuenow]="getDistributionPercentage(stats.workloadDistribution.underutilized)"
+                   aria-valuemin="0" 
+                   aria-valuemax="100">
+              </div>
+            </div>
+            <div class="text-end mt-1 small text-muted">
+              {{ getDistributionPercentage(stats.workloadDistribution.underutilized).toFixed(1) }}%
+            </div>
+          </div>
+
+          <div class="distribution-item">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="distribution-label status-available">
+                <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Available
+              </span>
+              <span class="distribution-count fw-bold">
+                {{ stats.workloadDistribution.available }}
+              </span>
+            </div>
+            <div class="progress" style="height: 24px;">
+              <div class="progress-bar bg-secondary" 
+                   role="progressbar"
+                   [style.width.%]="getDistributionPercentage(stats.workloadDistribution.available)"
+                   [attr.aria-valuenow]="getDistributionPercentage(stats.workloadDistribution.available)"
+                   aria-valuemin="0" 
+                   aria-valuemax="100">
+              </div>
+            </div>
+            <div class="text-end mt-1 small text-muted">
+              {{ getDistributionPercentage(stats.workloadDistribution.available).toFixed(1) }}%
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary Info -->
+    <div class="card">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">
+          <i class="bi bi-info-circle-fill me-2"></i>Summary
+        </h5>
+      </div>
+      <div class="card-body">
+        <div class="summary-info">
+          <p class="mb-2">
+            <strong>Total Employees:</strong> {{ stats.totalEmployees }}
+          </p>
+          <p class="mb-2">
+            <strong>Overloaded:</strong> 
+            <span class="status-overloaded">
+              {{ stats.imbalancesSummary.overloadedCount }}
+            </span>
+            ({{ getDistributionPercentage(stats.imbalancesSummary.overloadedCount).toFixed(1) }}%)
+          </p>
+          <p class="mb-2">
+            <strong>Underutilized:</strong> 
+            <span class="status-underutilized">
+              {{ stats.imbalancesSummary.underutilizedCount }}
+            </span>
+            ({{ getDistributionPercentage(stats.imbalancesSummary.underutilizedCount).toFixed(1) }}%)
+          </p>
+          <p class="mb-0">
+            <strong>Available:</strong> 
+            <span class="status-available">
+              {{ stats.imbalancesSummary.availableCount }}
+            </span>
+            ({{ getDistributionPercentage(stats.imbalancesSummary.availableCount).toFixed(1) }}%)
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

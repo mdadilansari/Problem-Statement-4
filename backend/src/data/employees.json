@@ -1,0 +1,58 @@
+[
+  {
+    "id": "E001",
+    "name": "Alice Johnson",
+    "skills": ["Angular", "Node.js", "TypeScript"],
+    "capacityHours": 40,
+    "currentHours": 0
+  },
+  {
+    "id": "E002",
+    "name": "Bob Smith",
+    "skills": ["React", "Python", "Docker"],
+    "capacityHours": 40,
+    "currentHours": 0
+  },
+  {
+    "id": "E003",
+    "name": "Carol Williams",
+    "skills": ["Angular", "Express", "MongoDB"],
+    "capacityHours": 40,
+    "currentHours": 0
+  },
+  {
+    "id": "E004",
+    "name": "David Brown",
+    "skills": ["Node.js", "PostgreSQL", "AWS"],
+    "capacityHours": 40,
+    "currentHours": 0
+  },
+  {
+    "id": "E005",
+    "name": "Emma Davis",
+    "skills": ["Vue.js", "Python", "Machine Learning"],
+    "capacityHours": 40,
+    "currentHours": 0
+  },
+  {
+    "id": "E006",
+    "name": "Frank Miller",
+    "skills": ["Angular", "TypeScript", "GraphQL"],
+    "capacityHours": 40,
+    "currentHours": 0
+  },
+  {
+    "id": "E007",
+    "name": "Grace Wilson",
+    "skills": ["React", "Node.js", "Docker"],
+    "capacityHours": 40,
+    "currentHours": 0
+  },
+  {
+    "id": "E008",
+    "name": "Henry Moore",
+    "skills": ["Python", "TensorFlow", "Kubernetes"],
+    "capacityHours": 40,
+    "currentHours": 0
+  }
+]
